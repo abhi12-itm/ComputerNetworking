@@ -1,0 +1,45 @@
+//server.java
+
+import java.io.*;
+import java.net.*;
+class server{
+	public static void main(String args[]){
+		String data ="Network Lab";
+		try{
+			ServerSocket srvr=new ServerSocket(1234);
+			Socket skt= srvr.accept();
+			System.out.println("Server has connected!!!\n");
+			PrintWriter out=new PrintWriter(skt.getOutputStream(), true);
+			System.out.print("Sending String: "+data+"\n");
+			out.print(data);
+			out.close();
+			skt.close();
+			srvr.close();
+		}
+		catch(Exception e){
+			System.out.println("It didn't work");
+		}
+	}
+}
+
+//client.java
+
+import java.io.*;
+import java.net.*;
+class client{
+	public static void main(String args[]){
+		try{
+			
+			Socket skt= new Socket("localhost",1234);
+			BufferedReader in=new BufferedReader(new InputStreamReader(skt.getInputStream()));
+			System.out.println("Received string: ");
+			while(!in.ready()){}
+			System.out.println(in.readLine());
+			System.out.println("\n");
+			in.close();
+		}
+		catch(Exception e){
+			System.out.print("Error");
+		}
+	}
+}
